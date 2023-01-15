@@ -1,7 +1,9 @@
 /*
 Platform :- Atcoder
 Contest :- Atcoder Beginner Contest 285
-Approach :- 
+Approach :- We will create graph of the strings , and check if they are bipartite or not ,in simple words is there any cycle or not .
+            If there is any cycle then we cannot arrange in any form .
+Time Compelxity :- O(n)
 */
 #include<bits/stdc++.h>
 using namespace std;
