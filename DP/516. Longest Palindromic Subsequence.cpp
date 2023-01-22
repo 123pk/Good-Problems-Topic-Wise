@@ -16,3 +16,49 @@ Approach :- So we will try to solve this recursively first ,
            Now recursion will give us TLE so we will use (Memoisation) to get it accepted
 Time Complexity :- O(n*m)
 */
+class Solution {
+public:
+    int dp[1001][1001];
+
+    int find(int i,int j,string&s){
+        if(dp[i][j] != -1)return dp[i][j];
+
+        if((j-i)<=1){
+            if(i == j)return dp[i][j] = 1;
+            else {
+                if(s[i] == s[j])return dp[i][j] = 2;
+                else return dp[i][j] = 1;
+            }
+        }
+        else{
+            //I hae twoo option
+            //either to find match for the first character or ith character
+            int val = 0 ;
+
+            if(s[i] == s[j]){
+                val = 2 + find(i+1,j-1,s);
+            }
+            else{
+                //move the end pointer first and check the biggest length 
+                //I can get
+
+                val = find(i,j-1,s);
+
+                //here we are moving the start pointer
+                val = max(val,find(i+1,j,s));
+                
+            }
+            //cout<<i<<"-"<<j<<" ->"<<val<<"\n";
+             return dp[i][j] = val;
+        }
+    }
+
+    int longestPalindromeSubseq(string s) {
+         
+        memset(dp,-1,sizeof(dp));
+        int n = s.size();
+        int z = find(0,n-1,s);
+        return max(1,dp[0][n-1]);
+
+    }
+};
