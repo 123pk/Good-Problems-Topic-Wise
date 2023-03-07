@@ -6,7 +6,7 @@ Appraoch :- This is a good problem to check your two pointer skills ,
             O(n log n) --> give us hint at Binary search , but how can we use binary serach ? There is no way we can use binary serach here .
             SO We are left with O(n) solution , using two pointer or greedy way .
             
-            So we are at ith index and we want to find number of 'Fixed Bound subarrays' ending at index 'i' .
+            So if we are at ith index and can we want to find number of 'Fixed Bound subarrays' ending at index 'i' ?
             --> First obervation we can have Fixed bound subarray if we have (mxK and mnK) present <= i 
             --> Similarly we maitain one start array which points to the start of valid array , or we need to have value from[start , i]
                 in range [mnK,mxK] . 
