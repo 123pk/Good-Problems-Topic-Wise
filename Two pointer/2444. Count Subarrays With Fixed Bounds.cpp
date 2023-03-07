@@ -33,3 +33,109 @@ Appraoch :- This is a good problem to check your two pointer skills ,
             we add this to our answer.
             
 */
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int mn, int mx) {
+         
+        long long ans = 0;
+        /*
+         --> We need 5 variables 
+            i. small_idx -- this stores the latest index of 'mnK' ( largest_index <= i)
+           ii. big_idx -- this stores the latest index of 'mxK' ( largest index <= i)
+          iii. cur_mn -- it stores the current minimum value in range from [start, i]
+           iv. cur_mx --  it stores the current minimum value in range from [start, i]
+            v. start -- it stores the starting index of valid range ( valid means all values should be in range mnK <= x <= mxK ) 
+
+        */
+        int small_idx = -1,big_idx = -1;
+        int cur_mn = INT_MAX , cur_mx = 0;
+        int start = -1;
+
+        int n = nums.size();
+
+        for(int i=0;i<n;++i){
+            //this means we are looking for a value in range which could be 
+            //start index of our valid range
+            if(start == -1){
+
+                //if current vlaue is in range [ mn <= nums[i] <= mx ]
+                if(mn<=nums[i] && nums[i]<=mx){
+                    //we update the current maximum and current minimum
+                    cur_mn = nums[i];
+                    cur_mx = nums[i];
+                    //similarly updating the indexes too if current vlaue is [mn] or [mx]
+                    if(nums[i] == mn)small_idx = i;
+                    if(nums[i] == mx)big_idx = i;
+                    start  = i;
+                    
+                    //if mx and mn are equal than this value is a valid range so we update ans
+                    if(mx == mn)ans++;
+                }
+                 continue;
+            }
+            else{
+                //here we have a start value and all values in [start , i-1] are in range (mn<=x && x<= mx)
+                //thats why start is not -1
+                //we are updating current maximum and current minimum value
+                cur_mn = min(cur_mn,nums[i]);
+                cur_mx = max(cur_mx,nums[i]);
+                
+                //if this vlaue is out of range it means we close our previous ragne 
+                //and again start serachin for valid one and make start = -1
+                if(cur_mn<mn || cur_mx > mx){
+                    start = -1;
+                    small_idx = -1;
+                    big_idx = -1;
+                }
+                else{
+                    //if current vaulue is [mn]
+                    if(nums[i] == mn){
+                       //we will change smallidx
+                       small_idx = i;
+                       if(nums[i] == mx)big_idx = i;
+
+                       //if we already have [mn] in current range 
+                        //then number of valid subarray ending at 'i'
+                        // is min(small_idx,big_idx) - start + 1;
+                       long long count = 0;
+                       if(big_idx != -1){
+                           count = min(small_idx,big_idx) - start;
+                           count++;
+                       }
+                        ans += count;
+                    }
+                    else if(nums[i] == mx){
+
+                        //we will change big_idx 
+                        big_idx = i;
+                        long long count = 0;
+
+                        //if we already have [mn] in current range 
+                        //then number of valid subarray ending at 'i'
+                        // is min(small_idx,big_idx) - start + 1;
+                        if(small_idx != -1){
+                            count = min(small_idx,big_idx) - start;
+                            count++;
+                         }
+                        
+                        ans += count;
+                    }
+                    else{
+                        //how many subarray which will end at
+                        //index i 
+                        //if we already have [mn] in current range 
+                        //then number of valid subarray ending at 'i'
+                        // is min(small_idx,big_idx) - start + 1;
+                        if(small_idx!=-1 && big_idx != -1){
+                            long long count = (min(small_idx,big_idx) - start)+1;
+                            ans += count;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return ans;
+    }
+};
