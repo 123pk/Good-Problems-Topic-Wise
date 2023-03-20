@@ -1,6 +1,6 @@
 /*
 Platform :- Codeforces Round 859 Div 4
-Approach :- 
+Approach :- https://studio.youtube.com/video/QUfKs-tmsh8/edit
 */
 
 #include <bits/stdc++.h>
